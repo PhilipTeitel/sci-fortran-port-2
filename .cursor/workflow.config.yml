@@ -1,0 +1,264 @@
+# Project workflow profile for sci-fortran-port-2.
+# Overrides user-profile stack and modernization pins. Other keys match ~/.cursor/workflow.config.yml.
+
+profile:
+  name: sci-fortran-port-2
+  version: 1
+  description: SciFor Fortran 90/95 to C# / .NET 8 / ASP.NET Core HTTP/JSON port (POC).
+  precedence:
+    - target-project:.cursor/workflow.config.yml
+    - user-profile:~/.cursor/workflow.config.yml
+    - documented-defaults:~/.cursor/workflow.config.yml
+
+cursor:
+  home: ~/.cursor
+  rulesFile: ~/.cursor/AGENTS.md
+  agentsDir: ~/.cursor/agents
+  commandsDir: ~/.cursor/commands
+  templatesDir: ~/.cursor/templates
+  excludedWorkflowSources:
+    - ~/.codex
+
+agents:
+  archaeologist: ~/.cursor/agents/archaeologist.md
+  architect: ~/.cursor/agents/architect.md
+  auditor: ~/.cursor/agents/auditor.md
+  docsPm: ~/.cursor/agents/docs-pm.md
+  implementer: ~/.cursor/agents/implementer.md
+  migrationStrategist: ~/.cursor/agents/migration-strategist.md
+  modeler: ~/.cursor/agents/modeler.md
+  qa: ~/.cursor/agents/qa.md
+
+templates:
+  executionPathInventory: ~/.cursor/templates/execution-path-inventory-template.md
+  executionPathDetail: ~/.cursor/templates/execution-path-detail-template.md
+  dependencyInventory: ~/.cursor/templates/dependency-inventory-template.md
+  dependencyGraph: ~/.cursor/templates/dependency-graph-template.md
+  impedanceAnalysis: ~/.cursor/templates/impedance-analysis-template.md
+  pathTestPlan: ~/.cursor/templates/path-test-plan-template.md
+  decisionRegister: ~/.cursor/templates/decision-register-template.md
+  defectLedger: ~/.cursor/templates/defect-ledger-template.md
+  migrationPlan: ~/.cursor/templates/migration-plan-template.md
+  modernizationAssessment: ~/.cursor/templates/modernization-assessment-template.md
+  oracle: ~/.cursor/templates/oracle-template.md
+  parityReport: ~/.cursor/templates/parity-report-template.md
+  portStory: ~/.cursor/templates/port-story-template.md
+  readme: ~/.cursor/templates/readme-template.md
+  purpose: ~/.cursor/templates/purpose-template.md
+  domain: ~/.cursor/templates/domain-model-template.md
+  skeleton: ~/.cursor/templates/walking-skeleton-template.md
+  adr: ~/.cursor/templates/adr-template.md
+  requirements: ~/.cursor/templates/requirements-template.md
+  story: ~/.cursor/templates/user-story-template.md
+  audit: ~/.cursor/templates/audit-template.md
+  storyReview: ~/.cursor/templates/story-review-template.md
+
+paths:
+  modernizationDir: docs/modernization
+  assessmentDoc: docs/modernization/ASSESSMENT.md
+  pathInventoryDoc: docs/modernization/execution-path-inventory.md
+  dependencyInventoryDoc: docs/modernization/dependency-inventory.md
+  dependencyGraphDoc: docs/modernization/dependency-graph.md
+  impedanceDoc: docs/modernization/impedance-analysis.md
+  decisionRegisterDoc: docs/modernization/decision-register.md
+  defectLedgerDoc: docs/modernization/defect-ledger.md
+  migrationPlanDoc: docs/modernization/migration-plan.md
+  oracleDoc: docs/modernization/oracle.md
+  pathGlob: docs/modernization/paths/XP-NNN-*.md
+  pathsDir: docs/modernization/paths
+  pathTestPlanGlob: docs/modernization/test-plans/XP-NNN-tests.md
+  pathTestPlansDir: docs/modernization/test-plans
+  parityReportPattern: docs/modernization/parity/{STORY-ID}-parity.md
+  designDoc: README.md
+  purposeDoc: docs/PURPOSE.md
+  domainDoc: docs/DOMAIN.md
+  featuresDir: docs/features
+  requirementsDir: docs/requirements
+  decisionsDir: docs/decisions
+  reviewsDir: docs/reviews
+  auditFile: audit-findings.md
+  storyGlob: docs/features/{STORY-ID}-*.md
+  storyFilePattern: docs/features/{STORY-ID}-{slug}.md
+  storyReviewPattern: docs/features/{STORY-ID}-review.md
+  diffReviewPattern: docs/reviews/diff-{base}-{target}.md
+
+workflow:
+  lanes:
+    fullStory:
+      description: New capability, broad refactor, persistence/auth/API change, adapter/port change, named dependency change, or binding-constraint change.
+      commands: [define-purpose, refine-feature, model-domain, design-application, plan-skeleton, plan-project, plan-story, complete-story]
+      alternatives: []
+    modernizationPort:
+      description: Brownfield modernization or language/framework port requiring assessment, recovered path documentation, target design, parity evidence, and cutover planning.
+      commands: [assess-modernization, record-decision, plan-migration, document-legacy, refine-feature, recover-domain, plan-path-tests, design-application, plan-project, plan-port-story, complete-port-story]
+    storyFollowup:
+      description: Small behavior fix, debugging result, UI polish, copy adjustment, or local refinement tied to a completed story.
+      commands: [patch-story, review-story, qa-story, document-story]
+    hotfixDiff:
+      description: Unplanned bug fix or branch diff that does not map cleanly to one story.
+      commands: [review-diff]
+    docsOnly:
+      description: Documentation-only updates.
+      commands: [document-story, review-diff]
+    trivialCode:
+      description: Non-behavioral typo, formatting, comment, or mechanical cleanup.
+      commands: []
+  completeStorySequence:
+    - implement-story
+    - review-story
+    - qa-story
+    - document-story
+    - validate-story
+  auditSequence:
+    - map-repo
+    - audit-test-coverage
+    - audit-reliability
+    - audit-security
+    - audit-api-contracts
+    - audit-db
+    - audit-performance
+    - audit-tooling
+    - triage-audit-findings
+  modernizationAssessSequence:
+    - inventory-paths
+    - inventory-dependencies
+    - map-dependency-graph
+    - analyze-impedance
+    - build-oracle
+    - assess-modernization
+  legacyRecoverySequence:
+    - trace-path
+    - recover-domain
+    - ledger-defects
+    - document-legacy
+  completePortStorySequence:
+    - implement-story
+    - review-story
+    - verify-parity
+    - qa-story
+    - document-story
+    - validate-story
+
+methodology:
+  sourceOfTruth: strict
+  adrBinding: required
+  hexagonalPortsAdapters: required
+  redFirstTesting: required
+  gherkinScenarioTraceability: required
+  purposeTraceability: required
+  domainModelTraceability: required
+  modelFidelity: required
+  provenanceTraceability: required
+  parityEvidence: required
+  walkingSkeleton: required
+  parityPhase: Phase P
+  bindingPhase: Phase Y
+  qualityPhase: Phase Z
+  portTestTypes: [contract, integration]
+  allowSpikeWithProposedAdr: true
+
+status:
+  story:
+    open: Open
+    active: In Progress
+    complete: Complete
+  backlog:
+    open: Not Started
+    active: In Progress
+    complete: Done
+  qa:
+    pass: PASS
+    fail: FAIL
+    blocked: BLOCKED
+  review:
+    pass: Pass
+    block: Block
+  assessment:
+    go: go
+    goWithConditions: go-with-conditions
+    noGo: no-go
+
+review:
+  summaryLineLabel: REVIEW SUMMARY
+  summaryFormat: "REVIEW SUMMARY: result=<Pass|Block> TEST-critical=<N> TEST-high=<N> SEC-critical=<N> SEC-high=<N> REL-critical=<N> REL-high=<N> API-critical=<N> API-high=<N> MODEL-critical=<N> MODEL-high=<N> PAR-critical=<N> PAR-high=<N> PROV-critical=<N> PROV-high=<N>"
+  gate:
+    blockOnSeverity: [high, critical]
+    requiredResultForQa: Pass
+  perStoryCategories: [Test Coverage, Reliability, Security, API Contracts, Model Fidelity, Parity, Provenance]
+  wholeRepoFindingPrefixes: [API, DB, REL, SEC, PERF, TOOL, TEST, MODEL, PAR, PROV]
+
+qa:
+  evidenceReferenceExamples:
+    - "path/to/file.test.ts::proof_name(command_or_runner)"
+    - "package.json lists \"pkg-name\""
+    - "scripts/verify-stack.mjs(npm run verify:stack)"
+
+modernization:
+  legacyRepoPath: /Users/philipteitel/code/ADD-migrations/sci-fortran-legacy
+  sourceStack:
+    language: Fortran 90/95 (free-form; F2003 command-line intrinsics)
+    version: unknown (checkout e586903; merged default gfortran 16.1.0 on T1 host)
+    framework: none (static library libscifor.a)
+  targetStack:
+    language: C#
+    version: .NET 8
+    framework: ASP.NET Core (HTTP/JSON services)
+  oracleTier: T1 executable
+  evidenceGrades:
+    E1: verified
+    E2: documented
+    E3: code-derived
+    E4: inferred
+    E5: unknown
+  stagingStrategies: [strangler, phased-rewrite, big-bang-parallel-run]
+  structureFidelity: [preserve-then-refactor, refactor-now]
+  defectPolicy: reproduce-then-backlog
+  dependencyDispositions: [available, reimplementable, undecided, no-route]
+  parity:
+    comparisonRules: per-path
+    numericToleranceHint:
+      relative: 0.000001
+      absolute: 0.000001
+    textNormalization:
+      trimWhitespace: true
+      normalizeLineEndings: true
+      caseSensitive: true
+
+stack:
+  language: csharp
+  packageManager: dotnet
+  installCommand: dotnet restore
+  buildCommand: dotnet build
+  lintCommand: dotnet format --verify-no-changes
+  testCommand: dotnet test
+  typePolicy:
+    disallowAny: false
+    sharedTypesAlias: ""
+  logger:
+    format: structured-json
+    levels: [debug, info, warn, error]
+    examples: [Microsoft.Extensions.Logging, Serilog]
+
+naming:
+  executionPathPattern: XP-NNN-short-slug.md
+  pathTestPlanPattern: XP-NNN-tests.md
+  defectPattern: DEF-NNN-short-slug.md
+  decisionPattern: DEC-NNN
+  impedancePattern: IMP-NNN-short-slug.md
+  riskPattern: RISK-NNN-short-slug.md
+  requirementPattern: REQ-NNN-short-slug.md
+  adrPattern: ADR-NNN-short-slug.md
+  storyPattern: "{STORY-ID}-{slug}.md"
+  scenarioIdPattern: "S<number>"
+  acceptanceCriterionPattern: "<PhaseLetter><number>"
+  findingPrefixes: [TEST, SEC, API, REL, DB, PERF, TOOL, MODEL, PAR, PROV]
+
+git:
+  defaultBaseBranches: [main, master]
+  defaultRemoteBase: origin/main
+  completionRefCommand: git rev-parse --short HEAD
+  fallbackCompletionRef: "TBD: not committed"
+
+templateHandling:
+  neutralizeProjectSpecificExamples: true
+  unresolvedPlaceholderPolicy: keep-heading-and-write-TBD
