@@ -70,4 +70,4 @@ None yet. Architect creates epic/story rows after `/plan-migration` and `/plan-p
 
 ## License
 
-MIT © Philip Teitel
+See [`LICENSE.md`](LICENSE.md). This tree is **never** to be used except to evaluate the Artifact-Driven Development methodology. It is not MIT-licensed and is not a production SciFor port.
