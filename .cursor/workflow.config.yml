@@ -1,5 +1,6 @@
 # Project workflow profile for sci-fortran-port-2.
 # Overrides user-profile stack and modernization pins. Other keys match ~/.cursor/workflow.config.yml.
+# agents.productOwner is a project-local Human test double; it is not an ADD asset.
 
 profile:
   name: sci-fortran-port-2
@@ -27,6 +28,7 @@ agents:
   implementer: ~/.cursor/agents/implementer.md
   migrationStrategist: ~/.cursor/agents/migration-strategist.md
   modeler: ~/.cursor/agents/modeler.md
+  productOwner: .cursor/agents/sci-fortran-product-owner.md
   qa: ~/.cursor/agents/qa.md
 
 templates:
